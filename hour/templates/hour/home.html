@@ -1,0 +1,68 @@
+{% extends 'person_auth/base.html' %}
+{% load static %}
+
+{% block title %}Home page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" id="day_input" name="input_form" onsubmit="return validateForm()" >
+            {% csrf_token %}{{form.as_table}}
+            <button type="submit" class="btn btn-success">Add day</button>
+
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Morning</th>
+                <th scope="col">Lanch in</th>
+                <th scope="col">Lanch out</th>
+                <th scope="col">Evening</th>
+                <th scope="col">Required</th>
+                <th scope="col">Extra</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+             {% for day in days %}
+              <tr>
+               
+                <form action="{% url 'hour:update_day' day.id %}" class="update_time" method="POST">
+                    {% csrf_token %}
+                    <td class="time{{day.id}}"><span>{{day.date | date:"d.m.y"}}</span><input disabled name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
+                    <td class="time{{day.id}}"><span>{{day.start | time:"H:i"}}</span><input name="start" type="time" min="07:00" max="21:00" value="{{day.start | time:'H:i'}}" style="display: none;" ></td>
+                    <td class="time{{day.id}}"><span>{{day.lunch_in | time:"H:i"}}</span><input name="lunch_in" type="time" min="07:00" max="21:00"  value="{{day.lunch_in | time:'H:i'}}" style="display: none;" ></td>
+                    <td class="time{{day.id}}"><span>{{day.lunch_out | time:"H:i"}}</span><input name="lunch_out" type="time" min="07:00" max="21:00"  value="{{day.lunch_out | time:'H:i'}}" style="display: none;" ></td>
+                    <td class="time{{day.id}}"><span>{{day.end | time:"H:i"}}</span><input name="end" type="time" min="07:00" max="21:00"  value="{{day.end | time:'H:i'}}" style="display: none;" ></td>
+                    <td>{{ day.required | floatformat:2 }}</td>
+                    <td>{{ day.extra | floatformat:2}}</td>
+                    <td>
+                        <button value="{{day.id}}" class="btn brn-outline-danger edit"><i class="fa fa-pencil"></i></button>
+                        <button id="save_edit{{day.id}}" type="submmit" value="{{day.id}}" class="btn brn-outline-danger save_edit" style="display: none"><i class="fa fa-check"></i></button>
+                    </td>
+                </form>
+                <td>
+                    <form action="{% url 'hour:delete_day' day.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submmit" value="{{day.id}}" class="btn brn-outline-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
+                    </form>
+                </td>
+
+              </tr>
+              {% empty %}
+              <p>No days yet.</p>
+             {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'hour/index.js' %}"></script>
+{% endblock %} 
+

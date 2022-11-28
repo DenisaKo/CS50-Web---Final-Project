@@ -1,0 +1,26 @@
+My first imaginations
+
+My idea is to create a web-site to display working hours for employees of fictive company XY.
+Every employee has to register/login to the system to do CRUD operations.
+Every day record in the db contains (data are created by users):
+    - date of the current day
+    - morning login
+    - lunch pause start
+    - lunch pause end
+    - evening logout
+
+Functionalities:
+    - want to implement NOW button, to select current time for each part of day's records
+    - edit button to change data manually
+    - calendar display to chose a date
+    - clock display to chose a wished time
+    - for every day: count how much working hours I have + how much is extra
+    - for every month: count how much working hours I have + how much is extra
+    - create a pdf report to display these records every month
+
+Idea to improve:
+    - implement sick days/doctors visits
+
+Each user:
+    - has his/her own profile (personal info + photo ...)
+    - can sent a message to his/her college/boss ... (to registered user)
