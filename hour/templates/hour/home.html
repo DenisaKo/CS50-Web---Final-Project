@@ -31,7 +31,7 @@
             <tbody>
              {% for day in days %}
               <tr id="row{{day.id}}">
-                <form action="{% url 'hour:update_day' day.id %}" class="update_time" name="update_time" method="POST">
+                <form action="{% url 'hour:update_day' day.id %}" class="update_time" name="update_time" method="POST" onsubmit="return validateFormEdit(`{{day.id}}`)">
                     {% csrf_token %}
                     <td class="time{{day.id}}"><span>{{day.date | date:"d.m.y"}}</span><input disabled name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
                     <td class="time{{day.id}}"><span>{{day.start | time:"H:i"}}</span><input id="start{{day.id}}" name="start" type="time" min="07:00" max="21:00" value="{{day.start | time:'H:i'}}" style="display: none;" ></td>
@@ -43,6 +43,7 @@
                     <td>
                         <button value="{{day.id}}" class="btn brn-outline-danger edit"><i class="fa fa-pencil"></i></button>
                         <button id="save_edit{{day.id}}" type="submmit" value="{{day.id}}" class="btn brn-outline-danger save_edit" style="display: none" ><i class="fa fa-check"></i></button>
+                        <button id="cancel_edit{{day.id}}" value="{{day.id}}" type="button" class="btn brn-outline-danger cancel" style="display: none"><i class="fa fa-times" ></i></button>
                     </td>
                 </form>
                 <td>
