@@ -57,22 +57,22 @@ class DeleteDay(LoginRequiredMixin, View):
 
 
 
-class DetailDay(LoginRequiredMixin, View):
-    def get(self, request, day_id):
-        day = get_object_or_404(Day, id=day_id, user=request.user)
-        form = DayForm(instance=day)
-        context = {'form': form}
-        return render(request, 'hour/detail_day.html', context)
+# class DetailDay(LoginRequiredMixin, View):
+#     def get(self, request, day_id):
+#         day = get_object_or_404(Day, id=day_id, user=request.user)
+#         form = DayForm(instance=day)
+#         context = {'form': form}
+#         return render(request, 'hour/detail_day.html', context)
 
-    def post(self, request, day_id):
-        day = get_object_or_404(Day, id=day_id, user=request.user)
-        form = DayForm(request.POST, instance=day)
-        if form.is_valid():
-            day.save()
-            return redirect('hour:home')
+#     def post(self, request, day_id):
+#         day = get_object_or_404(Day, id=day_id, user=request.user)
+#         form = DayForm(request.POST, instance=day)
+#         if form.is_valid():
+#             day.save()
+#             return redirect('hour:home')
 
-        context = {'form': form}
-        return render(request, 'hour/detail_day.html', context)
+#         context = {'form': form}
+#         return render(request, 'hour/detail_day.html', context)
         
 
 

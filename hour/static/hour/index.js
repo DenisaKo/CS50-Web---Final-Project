@@ -1,10 +1,22 @@
-function validateForm() {
-    const date = document.forms['input_form']['date'].value;
+const form = document.querySelector('#day_input')
+form.addEventListener('submit', function (e) {
+    // e.preventDefault();
+    const inputs = form.querySelectorAll('input');
+    const date = inputs[1].value;
+    const start = inputs[2].value;
+    const lunch_in = inputs[3].value;
+    const lunch_out = inputs[4].value;
+    const end = inputs[5].value;
+
     if (date === null || date === ""){
         alert('Please choose a date.');
         return false;
     };
-};
+    if (input_validate(start, lunch_in, lunch_out, end) === false){
+        return false;
+    } 
+ 
+});
 
 
 document.querySelectorAll(".edit").forEach(button => {
@@ -15,6 +27,7 @@ document.querySelectorAll(".edit").forEach(button => {
         const cancel_button = document.getElementById(`cancel_edit${day_id}`)
         check_button.style.display = 'block';
         cancel_button.style.display = 'block';
+        cancel_button.style.marginTop = "5px";
         const all_inputs = document.querySelectorAll(`.time${day_id}`);
         all_inputs.forEach(row => {
             row.querySelector('span').style.display = 'none';
@@ -43,6 +56,15 @@ function validateFormEdit(day_id) {
     const lunch_out = row.querySelector(`#lunch_out${day_id}`).value;
     const end = row.querySelector(`#end${day_id}`).value;
 
+    if (input_validate(start, lunch_in, lunch_out, end) === false){
+        return false;
+    } else {
+        return true;
+    };
+};
+
+
+function input_validate(start, lunch_in, lunch_out, end) {  
     if (start && lunch_in){
         if (check_time(start, lunch_in)) {
             if (lunch_out && end) {
@@ -91,9 +113,9 @@ function validateFormEdit(day_id) {
     } else {
         alert("incomplete day");
         return false;
-    }
-
+    };
 };
+
 
 function check_time(input_time, output_time) {
     if (input_time > output_time) {

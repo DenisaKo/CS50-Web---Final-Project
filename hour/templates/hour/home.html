@@ -5,15 +5,45 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container">
-        <form method="post" id="day_input" name="input_form" onsubmit="return validateForm()" >
-            {% csrf_token %}{{form.as_table}}
-            <button type="submit" class="btn btn-success">Add day</button>
+    <br>
+    <div>
+        <h3>Create a new day in a calendar</h3>
+        <p>Be sure to add a completed day, for daily check-in please use your homepage.</p>
+        <p>If you see uncompleted day/days (red marked) that is probably because you didn't completed daily check-in. Please review this/those day/days and complete it/them.</p>
+        <p>Uncompleted day will seen as 0 - your absence.</p>
+    </div>
+    <br>
 
-        </form>
+    <div id="modal">
+        <div id="plus">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="fa fa-plus"></i> Add a working day</button>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">New day</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                    <div class="container" id="create_input_table">
+                        <form method="post" id="day_input" name="input_form" >
+                            <div class="modal-body">
+                                {% csrf_token %}{{form | crispy}}
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success">Add day</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
+    <div class="table-responsive-md">
         <table class="table">
             <thead>
               <tr>
@@ -33,6 +63,7 @@
               <tr id="row{{day.id}}">
                 <form action="{% url 'hour:update_day' day.id %}" class="update_time" name="update_time" method="POST" onsubmit="return validateFormEdit(`{{day.id}}`)">
                     {% csrf_token %}
+                    <!-- <td style="display: none">incomplete</td> -->
                     <td class="time{{day.id}}"><span>{{day.date | date:"d.m.y"}}</span><input disabled name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
                     <td class="time{{day.id}}"><span>{{day.start | time:"H:i"}}</span><input id="start{{day.id}}" name="start" type="time" min="07:00" max="21:00" value="{{day.start | time:'H:i'}}" style="display: none;" ></td>
                     <td class="time{{day.id}}"><span>{{day.lunch_in | time:"H:i"}}</span><input id="lunch_in{{day.id}}" name="lunch_in" type="time" min="07:00" max="21:00"  value="{{day.lunch_in | time:'H:i'}}" style="display: none;" ></td>
@@ -41,15 +72,15 @@
                     <td>{{ day.required | floatformat:2 }}</td>
                     <td>{{ day.extra | floatformat:2}}</td>
                     <td>
-                        <button value="{{day.id}}" class="btn brn-outline-danger edit"><i class="fa fa-pencil"></i></button>
-                        <button id="save_edit{{day.id}}" type="submmit" value="{{day.id}}" class="btn brn-outline-danger save_edit" style="display: none" ><i class="fa fa-check"></i></button>
-                        <button id="cancel_edit{{day.id}}" value="{{day.id}}" type="button" class="btn brn-outline-danger cancel" style="display: none"><i class="fa fa-times" ></i></button>
+                        <button value="{{day.id}}" class="btn btn-outline-info edit"><i class="fa fa-pencil"></i></button>
+                        <button id="save_edit{{day.id}}" type="submmit" value="{{day.id}}" class="btn btn-outline-success save_edit" style="display: none" ><i class="bi bi-check-lg"></i></button>
+                        <button id="cancel_edit{{day.id}}" value="{{day.id}}" type="button" class="btn btn-outline-danger cancel" style="display: none"><i class="bi bi-x" ></i></button>
                     </td>
                 </form>
                 <td>
                     <form action="{% url 'hour:delete_day' day.id %}" method="POST">
                         {% csrf_token %}
-                        <button type="submmit" value="{{day.id}}" class="btn brn-outline-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
+                        <button type="submmit" value="{{day.id}}" class="btn btn-outline-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
                     </form>
                 </td>
 
@@ -60,6 +91,8 @@
             </tbody>
           </table>
     </div>
+
+    
 
 {% endblock %}
 {% block script %}
