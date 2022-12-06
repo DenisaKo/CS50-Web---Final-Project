@@ -28,26 +28,29 @@ class Profile(models.Model):
 
 class Day(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="days")
-    date = models.DateField(blank=True)
+    date = models.DateField(blank=True, null=True)
     start = models.TimeField(blank=True, null=True)
     lunch_in = models.TimeField(blank=True, null=True)
     lunch_out = models.TimeField(blank=True, null=True)
     end = models.TimeField(blank=True, null=True)
     required = models.FloatField(blank=True, null=True)
     extra = models.FloatField(blank=True, null=True)
+    completed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-date']
 
     def serialize(self):
         return {
-            "user": self.User.id,
-            'user_name': self.User.username,
+            "user": self.user.id,
+            'user_name': self.user.username,
             'date': self.date,
             'start': self.start,
             'lunch_in': self.lunch_in,
             'lunch_out': self.lunch_out,
             'end': self.end,
+            'required': self.required,
+            'extra': self.extra
         }
 
 
@@ -119,6 +122,62 @@ class Day(models.Model):
                 required, extra = hours_h, 0
         return required, extra
 
+
+    def input_validate(self):
+        if self.start and self.lunch_in:
+            if check_time(self.start, self.lunch_in):
+                if self.lunch_out and self.end:
+                    if check_time(self.lunch_in, self.lunch_out) and check_time(self.lunch_out, self.end):
+                        print("work all day")
+                        return True
+                    else:
+                        print("wrong time input")
+                        return False
+                elif not self.lunch_out and not self.end:
+                    print("work in the morning olny")
+                    return True
+                else:
+                    print("incomplete day")
+                    return False
+            else:
+                print("wrong time input")
+                return False
+        
+        elif not self.start and not self.lunch_in:
+            if self.lunch_out and self.end:
+                if check_time(self.lunch_out, self.end):
+                    print("work in the afternoon")
+                    return True
+                else:
+                    print("wrong time input")
+                    return False
+            elif not self.lunch_out and not self.end:
+                print("work not at all")
+                return True
+            else:
+                print("incomplete day")
+                return False
+        
+        elif self.start and not self.lunch_in:
+            if not self.lunch_out and self.end:
+                if check_time(self.start, self.end):
+                    print("work all day without launch pause")
+                    return True
+                else:
+                    print("wrong time input")
+                    return False
+            else:
+                print("incomplete day")
+                return False
+        else:
+            print("incomplete day")
+            return False
+    
+
+def check_time(input_time, output_time):
+    if input_time > output_time:
+        return False
+    return True
 
 def hour_to_min(part):
     return part.hour*60 + part.minute  

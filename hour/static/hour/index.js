@@ -14,7 +14,7 @@ form.addEventListener('submit', function (e) {
     };
     if (input_validate(start, lunch_in, lunch_out, end) === false){
         return false;
-    } 
+    };
  
 });
 
@@ -44,6 +44,21 @@ document.querySelectorAll(".edit").forEach(button => {
             cancel_button.style.display = 'none';
             button.style.display = 'block';
         });
+
+        check_button.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (validateFormEdit(day_id) === false) {
+                return false;
+            } else {
+                all_inputs.forEach(row => {
+                    row.querySelector('span').style.display = 'block';
+                    row.querySelector('input').style.display = 'none';
+                })
+                check_button.style.display = 'none';
+                cancel_button.style.display = 'none';
+                button.style.display = 'block';
+            };
+        });
     });
 });
 
@@ -55,12 +70,79 @@ function validateFormEdit(day_id) {
     const lunch_in = row.querySelector(`#lunch_in${day_id}`).value;
     const lunch_out = row.querySelector(`#lunch_out${day_id}`).value;
     const end = row.querySelector(`#end${day_id}`).value;
-
+  
     if (input_validate(start, lunch_in, lunch_out, end) === false){
         return false;
     } else {
-        return true;
+        edit_time_input(day_id, start, lunch_in, lunch_out, end);
     };
+};
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+};
+
+
+function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
+// action="{% url 'hour:update_day' day.id %}"
+// onsubmit="return validateFormEdit(`{{day.id}}`)"
+    const csrftoken = getCookie('csrftoken');
+    fetch(`update_day/${day_id}/`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        mode: 'same-origin', // Do not send CSRF token to another domain.
+        body: JSON.stringify({
+            start: start,
+            lunch_in: lunch_in,
+            lunch_out: lunch_out,
+            end: end
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+       
+        const old_row = document.querySelector(`#row${day_id}`);
+        const old_start = old_row.querySelector(`#span_start${day_id}`);
+        const old_lunch_in = old_row.querySelector(`#span_lunch_in${day_id}`);
+        const old_lunch_out = old_row.querySelector(`#span_lunch_out${day_id}`);
+        const old_end = old_row.querySelector(`#span_end${day_id}`);
+        const old_required = old_row.querySelector(`#span_required${day_id}`);
+        const old_extra = old_row.querySelector(`#span_extra${day_id}`);
+
+
+        const new_start = document.createElement('span');
+        new_start.append(data.day.start);
+        const new_lunch_in = document.createElement('span');
+        new_lunch_in.append(data.day.lunch_in);
+        const new_lunch_out = document.createElement('span');
+        new_lunch_out.append(data.day.lunch_out);
+        const new_end = document.createElement('span');
+        new_end.append(data.day.end);
+        const new_required = document.createElement('span');
+        new_required.append(data.day.required);
+        const new_extra = document.createElement('span');
+        new_extra.append(data.day.extra);
+
+        old_start.replaceChildren(new_start);
+        old_lunch_in.replaceChildren(new_lunch_in);
+        old_lunch_out.replaceChildren(new_lunch_out);
+        old_end.replaceChildren(new_end);
+        old_required.replaceChildren(new_required);
+        old_extra.replaceChildren(new_extra);
+    });
 };
 
 
