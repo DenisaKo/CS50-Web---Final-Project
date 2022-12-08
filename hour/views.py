@@ -31,7 +31,7 @@ class Home(LoginRequiredMixin, View):
                 if form.is_valid():
                     day_db.required, day_db.extra = day_db.working_hours()
                     day_db.completed = day_db.input_validate()
-                day_db.save()
+                    day_db.save()
             return redirect('hour:home')
 
 
@@ -75,23 +75,6 @@ class DeleteDay(LoginRequiredMixin, View):
         return redirect('hour:home')
 
 
-
-# class DetailDay(LoginRequiredMixin, View):
-#     def get(self, request, day_id):
-#         day = get_object_or_404(Day, id=day_id, user=request.user)
-#         form = DayForm(instance=day)
-#         context = {'form': form}
-#         return render(request, 'hour/detail_day.html', context)
-
-#     def post(self, request, day_id):
-#         day = get_object_or_404(Day, id=day_id, user=request.user)
-#         form = DayForm(request.POST, instance=day)
-#         if form.is_valid():
-#             day.save()
-#             return redirect('hour:home')
-
-#         context = {'form': form}
-#         return render(request, 'hour/detail_day.html', context)
         
 
 

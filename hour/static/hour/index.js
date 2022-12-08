@@ -115,6 +115,7 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
     .then(data => {
        
         const old_row = document.querySelector(`#row${day_id}`);
+        const old_completed = document.querySelector(`#span_completed${day_id}`);
         const old_start = old_row.querySelector(`#span_start${day_id}`);
         const old_lunch_in = old_row.querySelector(`#span_lunch_in${day_id}`);
         const old_lunch_out = old_row.querySelector(`#span_lunch_out${day_id}`);
@@ -135,6 +136,9 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
         new_required.append(data.day.required);
         const new_extra = document.createElement('span');
         new_extra.append(data.day.extra);
+        const new_completed = document.createElement('span');
+        new_completed.append("");
+
 
         old_start.replaceChildren(new_start);
         old_lunch_in.replaceChildren(new_lunch_in);
@@ -142,6 +146,10 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
         old_end.replaceChildren(new_end);
         old_required.replaceChildren(new_required);
         old_extra.replaceChildren(new_extra);
+        old_completed.replaceChildren(new_completed);
+
+        old_row.style.backgroundColor = "lightgreen";
+        
     });
 };
 
@@ -205,4 +213,6 @@ function check_time(input_time, output_time) {
     };
     return true;
 };
+
+
 

@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Profile, Day, SickHour
+from .models import Day, SickHour
 
 # Register your models here.
-admin.site.register(Profile)
 admin.site.register(Day)
 admin.site.register(SickHour)

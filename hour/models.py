@@ -5,27 +5,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    bio = models.TextField()
-
-    TECH = 1
-    ACOUNING = 2
-    ENVIRO = 3
-    WAREHOUSE = 4
-    QUALITY = 5
-
-    DEPARTMENT_CHOICE = (
-        (TECH, 'tech'),
-        (ACOUNING, 'acounting'),
-        (ENVIRO, 'enviro'),
-        (WAREHOUSE, 'warehouse'),
-        (QUALITY, 'quality')
-    )
-
-    department = models.IntegerField(choices=DEPARTMENT_CHOICE, default=TECH)
-
-
 class Day(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="days")
     date = models.DateField(blank=True, null=True)
