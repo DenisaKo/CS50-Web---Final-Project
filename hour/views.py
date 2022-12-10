@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
@@ -20,6 +21,7 @@ class Home(LoginRequiredMixin, View):
         form = DayForm(request.POST)
         if form.is_valid():
             day = form.save(commit=False)
+            print(type(day.date))
             if not Day.objects.filter(user=request.user, date = day.date):
                 day.user = request.user
                 day.required, day.extra = day.working_hours()

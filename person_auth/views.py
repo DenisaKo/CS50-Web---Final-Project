@@ -1,3 +1,4 @@
+import datetime 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -19,22 +20,29 @@ def profile_change(request, user_id):
         return redirect('person_auth:home')
 
 
-
 @login_required(login_url='/login')
 def home(request):
     if request.method == "GET":
         user = request.user
-        form = DayForm()
+        today = datetime.date.today()
+        day = Day.objects.filter(user=request.user, date=today).first()
+        if day is not None:
+            form = DayForm(instance=day)
+        else:
+            form = DayForm(initial={'date': today })
         profile = Profile.objects.filter(user=user).first()
-        context = {"form": form, "profile": profile}
+        context = {"form": form, "profile": profile, "today": today}
         return render(request, 'person_auth/home.html', context)
     
     else:
         form = DayForm(request.POST)
+        today = datetime.date.today()
         if form.is_valid():
             day = form.save(commit=False)
+            print(day.date)
             if not Day.objects.filter(user=request.user, date = day.date):
                 day.user = request.user
+                day.date = today
                 day.required, day.extra = day.working_hours()
                 day.completed = day.input_validate()
                 day.save()

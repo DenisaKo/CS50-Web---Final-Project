@@ -11,4 +11,7 @@ sequence.addEventListener('keyup', function() {
     avatar.src = `https://avatars.dicebear.com/api/${pic_first.value}/${sequence.value}.svg?h=256&w=256`;
     console.log(sequence.value);
 });
-// console.log(pic_first)
+
+const date = document.querySelector('#id_date');
+date.readOnly = true;
+// console.log(date)
