@@ -21,8 +21,8 @@ class Home(LoginRequiredMixin, View):
         form = DayForm(request.POST)
         if form.is_valid():
             day = form.save(commit=False)
-            print(type(day.date))
-            if not Day.objects.filter(user=request.user, date = day.date):
+            # print(type(day.date))
+            if not Day.objects.filter(user=request.user, date = day.date).first():
                 day.user = request.user
                 day.required, day.extra = day.working_hours()
                 day.completed = day.input_validate()
