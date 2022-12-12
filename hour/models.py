@@ -15,6 +15,7 @@ class Day(models.Model):
     required = models.FloatField(blank=True, null=True)
     extra = models.FloatField(blank=True, null=True)
     completed = models.BooleanField(default=False)
+    public_holiday = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-date']
@@ -29,7 +30,9 @@ class Day(models.Model):
             'lunch_out': self.lunch_out,
             'end': self.end,
             'required': self.required,
-            'extra': self.extra
+            'extra': self.extra,
+            'completed': self.completed,
+            'public_holiday': self.public_holiday
         }
 
 
@@ -95,10 +98,13 @@ class Day(models.Model):
             required, extra = 0, 0
         else:               
             hours_h = hours / 60
-            if hours_h >= 8:
-                required, extra = 8, hours_h - 8
+            if self.date.weekday() > 5 or self.public_holiday == True:
+                required, extra = 0, hours_h
             else:
-                required, extra = hours_h, 0
+                if hours_h >= 8:
+                    required, extra = 8, hours_h - 8
+                else:
+                    required, extra = hours_h, 0
         return required, extra
 
 
@@ -161,6 +167,36 @@ def check_time(input_time, output_time):
 def hour_to_min(part):
     return part.hour*60 + part.minute  
 
+
+class Month(models.Model):
+    JAN = 1
+    FEB = 2
+    MAR = 3
+    APR = 4
+    MAY = 5 
+    JUN = 6
+    JUL = 7
+    AUG = 8
+    SEP = 9
+    OCT = 10
+    NOV = 11
+    DEC = 12
+
+    MONTH_CHOICE = (
+        ('JAN', 'January'),
+        ('FEB', 'February'),
+        ('MAR', 'March'),
+        ('APR', 'April'),
+        ('MAY', 'May'),
+        ('JUN', 'June'),
+        ('JUL', 'July'),
+        ('AUG', 'August'),
+        ('SEP', 'September'),
+        ('OCT', 'October'),
+        ('NOV', 'November'),
+        ('DEC', 'December')
+    )
+    month = models.IntegerField(choices=MONTH_CHOICE, default='JAN')
 
 class SickHour(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sickHours")

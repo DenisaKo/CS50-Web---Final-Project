@@ -8,6 +8,14 @@ from hour.forms import DayForm
 from .forms import RegistationForm, ProfilForm
 from .models import Profile
 
+
+def homepage(request):
+    if request.method == 'GET':
+        return render(request, 'person_auth/index.html')
+    else:
+        redirect('/login/')
+
+
 @login_required(login_url='/login')
 def profile_change(request, user_id):
     user = request.user

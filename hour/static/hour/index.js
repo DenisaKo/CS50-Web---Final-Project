@@ -31,14 +31,14 @@ document.querySelectorAll(".edit").forEach(button => {
         const all_inputs = document.querySelectorAll(`.time${day_id}`);
         all_inputs.forEach(row => {
             row.querySelector('span').style.display = 'none';
-            row.querySelector('input').style.display = 'block';
+            row.querySelector(':scope > input').style.display = 'block';
         })
         button.style.display = 'none';
 
         cancel_button.addEventListener('click', function(){
             all_inputs.forEach(row => {
                 row.querySelector('span').style.display = 'block';
-                row.querySelector('input').style.display = 'none';
+                row.querySelector(':scope > input').style.display = 'none';
             })
             check_button.style.display = 'none';
             cancel_button.style.display = 'none';
@@ -52,7 +52,7 @@ document.querySelectorAll(".edit").forEach(button => {
             } else {
                 all_inputs.forEach(row => {
                     row.querySelector('span').style.display = 'block';
-                    row.querySelector('input').style.display = 'none';
+                    row.querySelector(':scope > input').style.display = 'none';
                 })
                 check_button.style.display = 'none';
                 cancel_button.style.display = 'none';
@@ -70,11 +70,12 @@ function validateFormEdit(day_id) {
     const lunch_in = row.querySelector(`#lunch_in${day_id}`).value;
     const lunch_out = row.querySelector(`#lunch_out${day_id}`).value;
     const end = row.querySelector(`#end${day_id}`).value;
-  
+    const public_holiday = row.querySelector(`#public_holiday${day_id}`).checked;
+
     if (input_validate(start, lunch_in, lunch_out, end) === false){
         return false;
     } else {
-        edit_time_input(day_id, start, lunch_in, lunch_out, end);
+        edit_time_input(day_id, start, lunch_in, lunch_out, end, public_holiday);
     };
 };
 
@@ -96,10 +97,10 @@ function getCookie(name) {
 };
 
 
-function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
-// action="{% url 'hour:update_day' day.id %}"
-// onsubmit="return validateFormEdit(`{{day.id}}`)"
+function edit_time_input(day_id, start, lunch_in, lunch_out, end, public_holiday) {
+
     const csrftoken = getCookie('csrftoken');
+    
     fetch(`update_day/${day_id}/`, {
         method: 'POST',
         headers: {'X-CSRFToken': csrftoken},
@@ -108,8 +109,10 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
             start: start,
             lunch_in: lunch_in,
             lunch_out: lunch_out,
-            end: end
+            end: end,
+            public_holiday: public_holiday
         })
+        
     })
     .then(response => response.json())
     .then(data => {
@@ -122,6 +125,9 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
         const old_end = old_row.querySelector(`#span_end${day_id}`);
         const old_required = old_row.querySelector(`#span_required${day_id}`);
         const old_extra = old_row.querySelector(`#span_extra${day_id}`);
+        const old_public_holiday = old_row.querySelector(`#span_public_holiday${day_id}`);
+        // const old_public_holiday = old_row.querySelector(`#span_input_public_holiday${day_id}`);
+
 
 
         const new_start = document.createElement('span');
@@ -139,6 +145,10 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
         const new_completed = document.createElement('span');
         new_completed.append("");
 
+        const new__input_public_holiday = document.createElement('input');
+        new__input_public_holiday.type = 'checkbox';
+        new__input_public_holiday.checked = data.day.public_holiday;
+        new__input_public_holiday.disabled = 'disabled';
 
         old_start.replaceChildren(new_start);
         old_lunch_in.replaceChildren(new_lunch_in);
@@ -147,6 +157,8 @@ function edit_time_input(day_id, start, lunch_in, lunch_out, end) {
         old_required.replaceChildren(new_required);
         old_extra.replaceChildren(new_extra);
         old_completed.replaceChildren(new_completed);
+        // old_public_holiday.replaceChildren(new_public_holiday);
+        old_public_holiday.replaceChildren(new__input_public_holiday);
 
         old_row.style.backgroundColor = "lightgreen";
         

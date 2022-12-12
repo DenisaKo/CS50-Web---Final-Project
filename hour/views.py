@@ -7,14 +7,17 @@ from django.views.decorators.csrf import csrf_protect
 import json
 
 from .models import Day
-from .forms import DayForm
+from .forms import DayForm, MonthForm
 
 # Create your views here.
 class Home(LoginRequiredMixin, View):
+    login_url = '/login/'
+
     def get(self, request):
         days = Day.objects.filter(user=request.user)
         form = DayForm()
-        context = {'days': days, 'form': form}
+        form_month = MonthForm()
+        context = {'days': days, 'form': form, 'form_month': form_month}
         return render(request, 'hour/home.html', context)
 
     def post(self, request):
@@ -49,8 +52,9 @@ class UpdateDay(LoginRequiredMixin, View):
         lunch_in = None if data.get('lunch_in') == "" else data.get('lunch_in')
         lunch_out = None if data.get('lunch_out') == "" else data.get('lunch_out')
         end = None if data.get('end') == "" else data.get('end')
+        public_holiday = data.get('public_holiday')
   
-        day.update(start=start, lunch_in=lunch_in, lunch_out=lunch_out, end=end)
+        day.update(start=start, lunch_in=lunch_in, lunch_out=lunch_out, end=end, public_holiday=public_holiday)
         required, extra = day.first().working_hours()
         completed = day.first().input_validate()
         day.update(required=required, extra=extra, completed=completed)

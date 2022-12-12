@@ -1,5 +1,8 @@
-.list, #create_input_table {
-
-    align-items: center;
+.navbar_list {
+    display: flex;
     justify-content: space-between;
+}
+
+.filtering {
+    display: inline;
 }

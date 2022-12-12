@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.db import models
-from .models import Day
+from .models import Day, Month
 
 
 class DateInput(forms.DateInput):
@@ -15,7 +15,7 @@ class TimeInput(forms.TimeInput):
 class DayForm(forms.ModelForm):
     class Meta:
         model = Day
-        fields = ['date', 'start', 'lunch_in', 'lunch_out', 'end']
+        fields = ['date', 'start', 'lunch_in', 'lunch_out', 'end', 'public_holiday']
         widgets = {
             'date': DateInput(attrs={'type': 'date'}),
             'start': TimeInput(),
@@ -23,3 +23,8 @@ class DayForm(forms.ModelForm):
             'lunch_out': TimeInput(),
             'end': TimeInput(),
         }
+
+class MonthForm(forms.ModelForm):
+    class Meta:
+        model = Month
+        fields = '__all__'

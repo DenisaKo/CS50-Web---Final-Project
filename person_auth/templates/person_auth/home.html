@@ -6,9 +6,9 @@
 {% block content %}
 <br>
 
-    
+<h1>Daily check-in</h1>
     <div class="container d-flex flex-ms-column">
-        <h1>Daily check-in</h1>
+        
         <form action="" method="POST">
             {% csrf_token %}{{form | crispy}}
             <button type="submit" class="btn btn-success">Add day</button>
@@ -115,5 +115,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'person_auth/index.js' %}"></script>
+    <script src="{% static 'person_auth/home.js' %}"></script>
 {% endblock %} 

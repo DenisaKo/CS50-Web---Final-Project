@@ -9,7 +9,4 @@ def create_day():
     for user in users:
         if Day.objects.filter(user=user, date=today).first() == None:
             Day.objects.create(user=user, date=today, completed=True)
-        # today_bd, created = Day.objects.get_or_create(user=user, date=today)
-    # counter = 0
-    # counter += 1
-    # print(f"hello, it is working, {counter}")
+ 

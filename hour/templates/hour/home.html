@@ -43,12 +43,29 @@
             </div>
         </div>
     </div>
+    <br>
+
+    <div id="filtering">
+        <div class="filtering"></div>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Year</option>
+                <option value="1">2022</option>
+                <option value="2">2023</option>
+                <option value="3">2024</option>
+            </select>
+        <div class="filtering">
+            {{form_month | crispy}}
+        </div>
+    </div>
+
+    <br>
 
     <div class="table-responsive-md">
         <table class="table">
             <thead>
               <tr>
                 <th scope="col"></th>
+                <th scope="col">Public holiday</th>
                 <th scope="col">Date</th>
                 <th scope="col">Morning</th>
                 <th scope="col">Lanch in</th>
@@ -80,6 +97,11 @@
                             {% endif %}
                             </span>
                         </td>
+                        {% if day.public_holiday %}
+                            <td class="time{{day.id}}"><span id="span_public_holiday{{day.id}}"><input id="span_input_public_holiday{{day.id}}" type="checkbox" checked disabled></span><input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" checked style="display: none;" ></td>
+                        {% else %}
+                            <td class="time{{day.id}}"><span id="span_public_holiday{{day.id}}"><input id="span_input_public_holiday{{day.id}}" type="checkbox" disabled></span><input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" style="display: none;" ></td>
+                        {% endif %}
                         <td class="time{{day.id}}"><span>{{day.date | date:"d.m.y"}}</span><input disabled id="date{{day.id}}" name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
                         <td class="time{{day.id}}"><span id="span_start{{day.id}}">{{day.start | time:"H:i"}}</span><input id="start{{day.id}}" name="start" type="time" min="07:00" max="21:00" value="{{day.start | time:'H:i'}}" style="display: none;" ></td>
                         <td class="time{{day.id}}"><span id="span_lunch_in{{day.id}}">{{day.lunch_in | time:"H:i"}}</span><input id="lunch_in{{day.id}}" name="lunch_in" type="time" min="07:00" max="21:00"  value="{{day.lunch_in | time:'H:i'}}" style="display: none;" ></td>
