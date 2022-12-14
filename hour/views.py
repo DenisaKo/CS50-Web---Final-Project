@@ -6,8 +6,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_protect
 import json
 
-from .models import Day
+from .models import Day, Month
 from .forms import DayForm, MonthForm
+from . import hour_counter
 
 # Create your views here.
 class Home(LoginRequiredMixin, View):
@@ -24,12 +25,20 @@ class Home(LoginRequiredMixin, View):
         form = DayForm(request.POST)
         if form.is_valid():
             day = form.save(commit=False)
-            # print(type(day.date))
+
+            # find the month of that day
+            month = day.date.month
+            year = day.date.year
+            month_db, created = Month.objects.get_or_create(user=request.user, month=month, year=year)
+
             if not Day.objects.filter(user=request.user, date = day.date).first():
                 day.user = request.user
+                #conect the day with month
+                day.month = month_db
                 day.required, day.extra = day.working_hours()
                 day.completed = day.input_validate()
                 day.save()
+                hour_counter.counter(request.user, month, year)
             else:
                 day_db = Day.objects.filter(user=request.user, date = day.date).first()
                 form = DayForm(request.POST, instance=day_db)
@@ -37,6 +46,8 @@ class Home(LoginRequiredMixin, View):
                     day_db.required, day_db.extra = day_db.working_hours()
                     day_db.completed = day_db.input_validate()
                     day_db.save()
+                    hour_counter.counter(request.user, month, year)
+
             return redirect('hour:home')
 
 
@@ -54,10 +65,16 @@ class UpdateDay(LoginRequiredMixin, View):
         end = None if data.get('end') == "" else data.get('end')
         public_holiday = data.get('public_holiday')
   
+        # update a specific day
         day.update(start=start, lunch_in=lunch_in, lunch_out=lunch_out, end=end, public_holiday=public_holiday)
         required, extra = day.first().working_hours()
         completed = day.first().input_validate()
         day.update(required=required, extra=extra, completed=completed)
+
+        # update a month of that day
+        month = day.first().date.month
+        year = day.first().date.year
+        hour_counter.counter(request.user, month, year)
         
         return JsonResponse({
             "day": day.first().serialize()
@@ -72,7 +89,6 @@ class UpdateDay(LoginRequiredMixin, View):
         })
 
         
-
 class DeleteDay(LoginRequiredMixin, View):
 
     def post(self, request, day_id):

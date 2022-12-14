@@ -1,3 +1,7 @@
+// document.addEventListener("DOMContentLoaded", function() {
+//     getFilterAplly()
+// });
+
 const form = document.querySelector('#day_input')
 form.addEventListener('submit', function (e) {
     // e.preventDefault();
@@ -16,6 +20,21 @@ form.addEventListener('submit', function (e) {
         return false;
     };
  
+});
+
+
+// function getFilterAplly() {
+//     const columns_filter = document.querySelectorAll('.table-filter');
+//     columns_filter.forEach(column => {
+//         let index = column.parentElement.getAttribute('data-index');
+//         console.log(index)
+//     })
+// };
+
+const month_filter = document.querySelector('#id_month');
+month_filter.addEventListener('change', function() {
+    const val = month_filter.value;
+    console.log(val);
 });
 
 

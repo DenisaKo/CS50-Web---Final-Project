@@ -27,4 +27,4 @@ class DayForm(forms.ModelForm):
 class MonthForm(forms.ModelForm):
     class Meta:
         model = Month
-        fields = '__all__'
+        fields = ['month']

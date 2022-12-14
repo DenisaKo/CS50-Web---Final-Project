@@ -16,6 +16,7 @@ class Day(models.Model):
     extra = models.FloatField(blank=True, null=True)
     completed = models.BooleanField(default=False)
     public_holiday = models.BooleanField(default=False)
+    month = models.ForeignKey('Month', on_delete=models.CASCADE, related_name="days_in_month")
 
     class Meta:
         ordering = ['-date']
@@ -167,36 +168,31 @@ def check_time(input_time, output_time):
 def hour_to_min(part):
     return part.hour*60 + part.minute  
 
-
 class Month(models.Model):
-    JAN = 1
-    FEB = 2
-    MAR = 3
-    APR = 4
-    MAY = 5 
-    JUN = 6
-    JUL = 7
-    AUG = 8
-    SEP = 9
-    OCT = 10
-    NOV = 11
-    DEC = 12
 
     MONTH_CHOICE = (
-        ('JAN', 'January'),
-        ('FEB', 'February'),
-        ('MAR', 'March'),
-        ('APR', 'April'),
-        ('MAY', 'May'),
-        ('JUN', 'June'),
-        ('JUL', 'July'),
-        ('AUG', 'August'),
-        ('SEP', 'September'),
-        ('OCT', 'October'),
-        ('NOV', 'November'),
-        ('DEC', 'December')
+        (1, 'January'),
+        (2, 'February'),
+        (3, 'March'),
+        (4, 'April'),
+        (5, 'May'),
+        (6, 'June'),
+        (7, 'July'),
+        (8, 'August'),
+        (9, 'September'),
+        (10, 'October'),
+        (11, 'November'),
+        (12, 'December')
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="months")
     month = models.IntegerField(choices=MONTH_CHOICE, default='JAN')
+    required = models.FloatField(default=0)
+    extra = models.FloatField(default=0)
+    year = models.IntegerField()
+
+    # def hours_counter(self, day_required, day_extra):
+    #     self.required += day_required
+    #     self.extra += day_extra
 
 class SickHour(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sickHours")
