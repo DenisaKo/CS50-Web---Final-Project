@@ -1,6 +1,21 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//     getFilterAplly()
-// });
+document.addEventListener("DOMContentLoaded", function() {
+    const month_filter = document.querySelector('#id_month');
+    let selected_month = parseInt(month_filter.value);
+    const year_filter = document.querySelector('#id_year');
+    let selected_year = parseInt(year_filter.value);
+
+    month_filter.addEventListener('change', function() {
+        selected_month = parseInt(month_filter.value);
+        getFilterAplly(selected_month, selected_year)
+    });
+
+    year_filter.addEventListener('change', function() {
+        selected_year = parseInt(year_filter.value);
+        getFilterAplly(selected_year, selected_year)
+    });
+
+    getFilterAplly(selected_month, selected_year);
+});
 
 const form = document.querySelector('#day_input')
 form.addEventListener('submit', function (e) {
@@ -23,19 +38,20 @@ form.addEventListener('submit', function (e) {
 });
 
 
-// function getFilterAplly() {
-//     const columns_filter = document.querySelectorAll('.table-filter');
-//     columns_filter.forEach(column => {
-//         let index = column.parentElement.getAttribute('data-index');
-//         console.log(index)
-//     })
-// };
-
-const month_filter = document.querySelector('#id_month');
-month_filter.addEventListener('change', function() {
-    const val = month_filter.value;
-    console.log(val);
-});
+function getFilterAplly(selected_month, selected_year) {
+    const table_rows = document.querySelectorAll('.table > tbody > tr');
+    table_rows.forEach(row => {
+        row.style.display = 'table-row';
+        let column = row.querySelector('.span_date').textContent.split(".");
+        let month = parseInt(column[1])
+        let year = parseInt(column[2])
+        if (month === selected_month && year === selected_year) {
+            row.style.display = 'table-row'
+        } else {
+            row.style.display = 'none'
+        }
+    });  
+};
 
 
 document.querySelectorAll(".edit").forEach(button => {
@@ -246,4 +262,20 @@ function check_time(input_time, output_time) {
 };
 
 
+const actual_month = parseInt(document.querySelector('#actual_month').getAttribute('data-month'));
+const select_month = document.querySelector('#id_month');
+const options_month = select_month.querySelectorAll('option');
+options_month.forEach(option => {
+    if (parseInt(option.value) === actual_month) {
+        option.setAttribute('selected', 'selected')
+    }
+});
 
+const actual_year = parseInt(document.querySelector('#actual_year').getAttribute('data-year'));
+const select_year = document.querySelector('#id_year');
+const options_year = select_year.querySelectorAll('option');
+options_year.forEach(option => {
+    if (parseInt(option.value) === actual_year) {
+        option.setAttribute('selected', 'selected')
+    }
+});

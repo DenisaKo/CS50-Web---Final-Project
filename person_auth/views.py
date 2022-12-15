@@ -43,8 +43,8 @@ def home(request):
         profile = Profile.objects.filter(user=user).first()
         year = today.year
         month = today.month
-        month_db = Month.objects.filter(user=request.user, month=month, year=year).first()
-        context = {"form": form, "profile": profile, "today": today, "month": month_db}
+        month_db = Month.objects.filter(user=request.user)
+        context = {"form": form, "profile": profile, "today": today, "month_db": month_db, "month": month}
         return render(request, 'person_auth/home.html', context)
     
     else:

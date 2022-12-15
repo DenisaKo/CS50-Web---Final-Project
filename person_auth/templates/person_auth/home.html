@@ -16,7 +16,7 @@
     </div>
 
     
-    <div class="card mb-3" style="max-width: 540px;">
+    <div class="card container d-flex flex-ms-column" style="max-width: 540px;">
         <div class="row g-0">
           <div class="col-md-4">
             <img src="https://avatars.dicebear.com/api/{{profile.pic_first}}/{{profile.random_sequence}}.svg?h=256&w=256" class="img-fluid rounded-circle" alt="avatar">
@@ -34,11 +34,58 @@
         </div>
     </div>
 
-    <div class="actual_hours">
-      <p>Year:{{month.year}}</p>
-      <p>Month:{{month.month}}</p>
-      <p>Required:{{month.required}}</p>
-      <p>Extra:{{month.extra}}</p>
+    <div class="actual_hours container d-flex flex-ms-column">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div>Actual working hours</div>
+        </div>
+        <div class="card-body mb-3">
+          <div id="filtering" class="mb-3">
+            <div class="filtering">
+                <label for="id_year" class="form-label requiredField">
+                    Year
+                    <span class="asteriskField">*</span>
+                </label>
+                    <select name="year" class="select form-select" id="id_year" aria-label="Default select example">
+                        <option value="2022" selected>2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                    </select>
+            </div>
+            <div class="filtering" >
+              <label for="id_month" class="form-label requiredField">
+                Month
+                <span class="asteriskField">*</span>
+              </label>
+                <select name="month" class="select form-select" id="id_month" aria-label="Default select example">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">Juny</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+          </div>
+          <p id="actual_month" hidden data-month="{{month}}"></p>
+          <div id="hours_card">
+            {% for month in month_db %}
+              <div class="card-text section">
+                <div class="card-text month" hidden> Month:<span>{{month.month}}</span></div>
+                <div class="card-text year" hidden> Year:<span>{{month.year}}</span></div>
+                <div class="card-text">Required:{{month.required}}</div>
+                <div class="card-text">Extra:{{month.extra}}</div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
 
     

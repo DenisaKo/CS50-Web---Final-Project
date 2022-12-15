@@ -13,6 +13,8 @@
         <p>If you see uncompleted day/days (red marked) that is probably because you didn't completed daily check-in. Please review this/those day/days and complete it/them.</p>
         <p>Uncompleted day will seen as 0 - your absence.</p>
     </div>
+    <p id="actual_month" hidden data-month="{{month}}"></p>
+    <p id="actual_year" hidden data-year="{{year}}"></p>
     <br>
 
     <div id="modal">
@@ -70,18 +72,8 @@
             <thead>
               <tr>
                 <th scope="col"></th>
-                <th scope="col" data-index="1">Public holiday
-                    <!-- <select name="" id="" class="table-filter">
-                        <option value="all"></option>
-                    </select> -->
-                </th>
-                <th scope="col" data-index="2">
-                    Date
-
-                    <!-- <select name="" id="" class="table-filter">
-                        <option value="all"></option>
-                    </select> -->
-                </th>
+                <th scope="col">Public holiday</th>
+                <th scope="col">Date</th>
                 <th scope="col">Morning</th>
                 <th scope="col">Lanch in</th>
                 <th scope="col">Lanch out</th>
@@ -117,7 +109,7 @@
                         {% else %}
                             <td class="time{{day.id}}"><span id="span_public_holiday{{day.id}}"><input id="span_input_public_holiday{{day.id}}" type="checkbox" disabled></span><input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" style="display: none;" ></td>
                         {% endif %}
-                        <td class="time{{day.id}}"><span>{{day.date | date:"d.m.y"}}</span><input disabled id="date{{day.id}}" name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
+                        <td class="time{{day.id}}"><span class="span_date">{{day.date | date:"d.m.Y"}}</span><input disabled id="date{{day.id}}" name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
                         <td class="time{{day.id}}"><span id="span_start{{day.id}}">{{day.start | time:"H:i"}}</span><input id="start{{day.id}}" name="start" type="time" min="07:00" max="21:00" value="{{day.start | time:'H:i'}}" style="display: none;" ></td>
                         <td class="time{{day.id}}"><span id="span_lunch_in{{day.id}}">{{day.lunch_in | time:"H:i"}}</span><input id="lunch_in{{day.id}}" name="lunch_in" type="time" min="07:00" max="21:00"  value="{{day.lunch_in | time:'H:i'}}" style="display: none;" ></td>
                         <td class="time{{day.id}}"><span id="span_lunch_out{{day.id}}">{{day.lunch_out | time:"H:i"}}</span><input id="lunch_out{{day.id}}" name="lunch_out" type="time" min="07:00" max="21:00"  value="{{day.lunch_out | time:'H:i'}}" style="display: none;" ></td>

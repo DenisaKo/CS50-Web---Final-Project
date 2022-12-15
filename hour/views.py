@@ -15,10 +15,13 @@ class Home(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request):
+        today = datetime.date.today()
+        month = today.month
+        year = today.year
         days = Day.objects.filter(user=request.user)
         form = DayForm()
         form_month = MonthForm()
-        context = {'days': days, 'form': form, 'form_month': form_month}
+        context = {'days': days, 'form': form, 'form_month': form_month, "month": month, "year": year}
         return render(request, 'hour/home.html', context)
 
     def post(self, request):
