@@ -44,7 +44,7 @@ def home(request):
         year = today.year
         month = today.month
         month_db = Month.objects.filter(user=request.user)
-        context = {"form": form, "profile": profile, "today": today, "month_db": month_db, "month": month}
+        context = {"form": form, "profile": profile, "today": today, "month_db": month_db, "month": month, "year": year}
         return render(request, 'person_auth/home.html', context)
     
     else:
@@ -71,6 +71,7 @@ def home(request):
                 form = DayForm(request.POST, instance=day_db)
                 if form.is_valid():
                     day_db.required, day_db.extra = day_db.working_hours()
+                    day_db.completed = day_db.input_validate()
                     day_db.save()
                     counter(request.user, month, year)
 

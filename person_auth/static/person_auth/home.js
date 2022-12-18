@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     year_filter.addEventListener('change', function() {
         selected_year = parseInt(year_filter.value);
-        getFilterAplly(selected_year, selected_year)
+        getFilterAplly(selected_month, selected_year)
     });
 
 });
@@ -23,7 +23,7 @@ const sequence = modal.querySelector('#id_random_sequence');
 const avatar = modal.querySelector('#avatar');
 
 pic_first.addEventListener('change', function() {
-    avatar.src = `https://avatars.dicebear.com/api/${pic_first.value}/{{profile.random_sequence}}.svg?h=256&w=256`;
+    avatar.src = `https://avatars.dicebear.com/api/${pic_first.value}/${sequence.value}.svg?h=256&w=256`;
     
 });
 sequence.addEventListener('keyup', function() {
@@ -62,7 +62,7 @@ function getFilterAplly(selected_month, selected_year) {
         let month = parseInt(row.querySelector('.month > span').textContent);
         let year = parseInt(row.querySelector('.year > span').textContent);
         if (month === selected_month && year === selected_year) {
-            row.style.display = 'table-row'
+            row.style.display = 'block'
         } else {
             row.style.display = 'none'
         }

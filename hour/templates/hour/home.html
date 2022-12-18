@@ -7,20 +7,30 @@
 {% block content %}
 {% if user.is_authenticated %}
     <br>
-    <div>
-        <h3>Create a new day in a calendar</h3>
-        <p>Be sure to add a completed day, for daily check-in please use your homepage.</p>
-        <p>If you see uncompleted day/days (red marked) that is probably because you didn't completed daily check-in. Please review this/those day/days and complete it/them.</p>
-        <p>Uncompleted day will seen as 0 - your absence.</p>
-    </div>
+    
+    <h3>The Calendar</h3>
+    <br>
     <p id="actual_month" hidden data-month="{{month}}"></p>
     <p id="actual_year" hidden data-year="{{year}}"></p>
-    <br>
+   
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Note!</h4>
+        <p>Be sure to add a completed day, for daily check-in please use your homepage.</p>
+        <p>If you see an incompleted day/days (red marked) it's probably because you haven't completed daily check-in. Please review this day and complete it.</p>
+        <hr>
+        <p class="mb-0">An incomplete day will be considered as 0 - your absence.</p>
+    </div>
+
+    <div class="" id="plus">
+        <button id="filter_button" class="btn btn-primary"> Click to apply a filter</button>
+
+        <div id="plus_inside">
+            <button  id="plus_btn" type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal"><h1><i class="bi bi-calendar-plus"></i></h1></button>
+        </div>
+    </div>
 
     <div id="modal">
-        <div id="plus">
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="fa fa-plus"></i> Add a working day</button>
-        </div>
+    
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -45,30 +55,32 @@
             </div>
         </div>
     </div>
-    <br>
-
-    <div id="filtering">
-        <div class="filtering">
-            <label for="id_year" class="form-label requiredField">
-                Year
-                <span class="asteriskField">*</span>
-            </label>
-                <select name="year" class="select form-select" id="id_year" aria-label="Default select example">
-                    <option value="2022" selected>2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                </select>
-        </div>
-        <div class="filtering" >
-                {{form_month | crispy}}
-            
+  
+    
+    <div id="open_filter" >
+        <div class="d-flex flex-ms-column">
+            <div class="filtering">
+                <label for="id_year" class="form-label requiredField">
+                    Year
+                    <span class="asteriskField">*</span>
+                </label>
+                    <select name="year" class="select form-select" id="id_year" aria-label="Default select example">
+                        <option value="2022" selected>2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                    </select>
+            </div>
+        
+            <div class="filtering" >
+                    {{form_month | crispy}}    
+            </div>
         </div>
     </div>
 
     <br>
 
     <div class="table-responsive-md">
-        <table class="table">
+        <table class="table align-middle">
             <thead>
               <tr>
                 <th scope="col"></th>
@@ -88,9 +100,9 @@
              {% for day in days %}
                 
                 {% if day.completed %}
-                    <tr id="row{{day.id}}" class="each_row">
+                    <tr id="row{{day.id}}" class="each_row" data-id="{{day.id}}">
                 {% else %}
-                    <tr id="row{{day.id}}" class="each_row" style="background-color:lightcoral;">        
+                    <tr id="row{{day.id}}" class="each_row" style="background-color:rgba(247,191,190,1);" data-id="{{day.id}}">        
                 {% endif %}
                 
                     <form class="update_time" name="update_time" method="POST" data-id="{{day.id}}">
@@ -100,14 +112,24 @@
                             {% if day.completed %}
 
                             {% else %}
-                            uncompleted
+                            <strong>Incomplete</strong>
                             {% endif %}
                             </span>
                         </td>
                         {% if day.public_holiday %}
-                            <td class="time{{day.id}}"><span id="span_public_holiday{{day.id}}"><input id="span_input_public_holiday{{day.id}}" type="checkbox" checked disabled></span><input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" checked style="display: none;" ></td>
+                            <td class="time{{day.id}}">
+                                <span id="span_public_holiday{{day.id}}" data-pub="true">
+                                    <strong><input id="span_input_public_holiday{{day.id}}" type="checkbox" checked disabled ></strong>
+                                </span>
+                                <input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" checked style="display: none;" >
+                            </td>
                         {% else %}
-                            <td class="time{{day.id}}"><span id="span_public_holiday{{day.id}}"><input id="span_input_public_holiday{{day.id}}" type="checkbox" disabled></span><input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" style="display: none;" ></td>
+                            <td class="time{{day.id}}">
+                                <span id="span_public_holiday{{day.id}}" data-pub="false">
+                                    <input id="span_input_public_holiday{{day.id}}" type="checkbox" disabled>
+                                </span>
+                                <input id="public_holiday{{day.id}}" name="public_holiday" type="checkbox" style="display: none;" >
+                            </td>
                         {% endif %}
                         <td class="time{{day.id}}"><span class="span_date">{{day.date | date:"d.m.Y"}}</span><input disabled id="date{{day.id}}" name="datum" type="date" value="{{day.date|date:'Y-m-d'}}" style="display: none;" ></td>
                         <td class="time{{day.id}}"><span id="span_start{{day.id}}">{{day.start | time:"H:i"}}</span><input id="start{{day.id}}" name="start" type="time" min="07:00" max="21:00" value="{{day.start | time:'H:i'}}" style="display: none;" ></td>

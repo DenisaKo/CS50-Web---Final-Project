@@ -5,91 +5,108 @@
 
 {% block content %}
 <br>
+  <div class="container" id="profile-page">
 
-<h1>Daily check-in</h1>
-    <div class="container d-flex flex-ms-column">
-        
-        <form action="" method="POST">
-            {% csrf_token %}{{form | crispy}}
-            <button type="submit" class="btn btn-success">Add day</button>
-        </form>
-    </div>
-
-    
-    <div class="card container d-flex flex-ms-column" style="max-width: 540px;">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="https://avatars.dicebear.com/api/{{profile.pic_first}}/{{profile.random_sequence}}.svg?h=256&w=256" class="img-fluid rounded-circle" alt="avatar">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{user.username}}</h5>
-              <p class="card-text">{{profile.department}}</p>
-              <p class="card-text">{{profile.bio}}</p>
-              <p class="card-text"><small class="text-muted"></small></p>
-         
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Update my profile</button>
-            </div>
-          </div>
+    <p id="actual_month" hidden data-month="{{month}}"></p>
+    <p id="actual_year" hidden data-year="{{year}}"></p>
+ 
+    <div class="card  d-flex flex-ms-column" id="profile-card">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="https://avatars.dicebear.com/api/{{profile.pic_first}}/{{profile.random_sequence}}.svg?h=256&w=256" class="img-fluid rounded-circle shadow p-3 mb-5 bg-body rounded" alt="avatar">
         </div>
-    </div>
-
-    <div class="actual_hours container d-flex flex-ms-column">
-      <div class="card mb-3">
-        <div class="card-header">
-          <div>Actual working hours</div>
-        </div>
-        <div class="card-body mb-3">
-          <div id="filtering" class="mb-3">
-            <div class="filtering">
-                <label for="id_year" class="form-label requiredField">
-                    Year
-                    <span class="asteriskField">*</span>
-                </label>
-                    <select name="year" class="select form-select" id="id_year" aria-label="Default select example">
-                        <option value="2022" selected>2022</option>
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                    </select>
-            </div>
-            <div class="filtering" >
-              <label for="id_month" class="form-label requiredField">
-                Month
-                <span class="asteriskField">*</span>
-              </label>
-                <select name="month" class="select form-select" id="id_month" aria-label="Default select example">
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">Juny</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
-            </div>
-          </div>
-          <p id="actual_month" hidden data-month="{{month}}"></p>
-          <div id="hours_card">
-            {% for month in month_db %}
-              <div class="card-text section">
-                <div class="card-text month" hidden> Month:<span>{{month.month}}</span></div>
-                <div class="card-text year" hidden> Year:<span>{{month.year}}</span></div>
-                <div class="card-text">Required:{{month.required}}</div>
-                <div class="card-text">Extra:{{month.extra}}</div>
-              </div>
-            {% endfor %}
+        <div class="col-md-8">
+          <div class="card-body">
+            <h1 class="card-title">{{user.username}}</h1>
+            <p class="card-text">{{profile.department}}</p>
+            <p class="card-text">{{profile.bio}}</p>
+            <p class="card-text"><small class="text-muted"></small></p>
+       
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Update my profile</button>
           </div>
         </div>
       </div>
     </div>
+    <br>
+    <br>
 
+    <div class="hours d-flex flex-ms-column">
+      <div id="input">
+          <form method="POST">
+            <h4>Daily check-in</h4>
+              {% csrf_token %}{{form | crispy}}
+              <button type="submit" class="btn btn-primary">Add day</button>
+          </form>
+      </div>
+     
+      <div id="actual_hours">
+        <div class="card  d-flex flex-ms-column" id="card_actual_hours">
+          <div class="card-header">
+            <div><h4>Monthly working hours</h4> </div>
+          </div>
+
+          <div class="card-body row d-flex" id="hours_body">
+
+                <div id="filtering" class="col-md-7">
+                  <div class="">
+                      <label for="id_year" class="form-label requiredField">
+                          Year
+                          <span class="asteriskField">*</span>
+                      </label>
+                          <select name="year" class="select form-select" id="id_year" aria-label="Default select example">
+                              <option value="2022" selected>2022</option>
+                              <option value="2023">2023</option>
+                              <option value="2024">2024</option>
+                          </select>
+                  </div>
+                  <br>
+                  <div class="" >
+                    <label for="id_month" class="form-label requiredField">
+                      Month
+                      <span class="asteriskField">*</span>
+                    </label>
+                      <select name="month" class="select form-select" id="id_month" aria-label="Default select example">
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">Juny</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                      </select>
+                  </div>
+                </div>
+            
+                <div id="hours_card" class="col-md-5">
+                  {% for month in month_db %}
+                    <div class="card-text section">
+                      <div class="card-text month" hidden> Month:<span>{{month.month}}</span></div>
+                      <div class="card-text year" hidden> Year:<span>{{month.year}}</span></div>
+                      <div class="card-text">
+                        <p>Normal:</p>
+                        <div><strong>{{month.required}} h</strong></div>
+                      </div>
+                    
+                      <div class="card-text" id="extra">
+                        <p>Overtime:</p>
+                        <div><strong>{{month.extra}} h</strong></div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
     
-
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -98,11 +115,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="{% url 'person_auth:profile_change' user.id %}" method="POST">
-        <div class="modal-body">
+        <div class="modal-body ">
             
             <div class="mb-3"><h1>{{user.username}}</h1></div>
             <p><small class="text-muted">Your avatar will be generated according to your TYPE and RANDOM SEQUENCE choice</small></p>
-            <img id="avatar" src="https://avatars.dicebear.com/api/{{profile.pic_first}}/{{profile.random_sequence}}.svg?h=256&w=256" class="img-fluid rounded-circle" alt="avatar">
+            <div class="flex" id="modal_pic">
+              <img id="avatar" src="https://avatars.dicebear.com/api/{{profile.pic_first}}/{{profile.random_sequence}}.svg?h=256&w=256" class="img-fluid rounded-circle" alt="avatar">
+            </div>
             {% csrf_token %}
 
                 <div id="div_id_department" class="mb-3"> 
@@ -163,11 +182,9 @@
 </div>
  
 
-   
-
-
 {% endblock %}
 
 {% block script %}
     <script src="{% static 'person_auth/home.js' %}"></script>
 {% endblock %} 
+
