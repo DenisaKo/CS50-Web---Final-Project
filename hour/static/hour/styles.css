@@ -130,3 +130,49 @@ main {
     justify-content: space-between;
 }
 
+#login {
+    margin: 10%;
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+}
+
+#sign {
+    margin: 5%;
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+}
+
+#login_parent {
+    padding: 10%;
+}
+
+.responsive_img {
+    width: 100%;
+  /* max-width: 400px; */
+  height: auto;
+}
+
+#login_img {
+    display: flex;
+    align-items: center;
+}
+
+#sign_img {
+    display: flex;
+    align-items: center;
+}
+
+#sign_heading {
+    display: flex;
+    justify-content: end;
+    padding-right: 10%;
+}
+
+#sign_parent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

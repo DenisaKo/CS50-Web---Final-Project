@@ -1,11 +1,23 @@
+
 {% extends 'person_auth/base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}{{form | crispy}}
-        <p>Don't have an account? <a href="{% url 'person_auth:sign_up' %}">Sign up</a></p>
-        <button type="submit" class="btn btn-success">Login</button>
-    </form>
+<div class="d-flex flex-ms-column" id="login_parent">
+    <div id="login_img">
+        
+        <img src="{% static 'android-chrome-512x512.png' %}" alt="" class="responsive_img">
+    </div>
+
+    <div id="login">
+    
+        <form method="post">
+            {% csrf_token %}{{form | crispy}}
+            <p>Don't have an account? <a href="{% url 'person_auth:sign_up' %}">Sign up</a></p>
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
