@@ -190,29 +190,9 @@ class Month(models.Model):
     extra = models.FloatField(default=0)
     year = models.IntegerField()
 
-    # def hours_counter(self, day_required, day_extra):
-    #     self.required += day_required
-    #     self.extra += day_extra
-
-class SickHour(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sickHours")
-    date = models.DateField()
-    start = models.TimeField()
-    end = models.TimeField()
-
-
-# class ChatterRoom(models.Model):
-#     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, blank=True, related_name="chatter_rooms_owner")
-#     members = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="chatter_rooms_member")
-
-
-# class Message(models.Model):
-#     sender = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name="messages_send")
-#     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="messages_received")
-#     text = models.TextField()
-#     chatter_room = models.ForeignKey(ChatterRoom, on_delete=models.CASCADE, related_name='messages')
-
-# class Like(models.Model):
-#     owner = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name="messages_send")
-#     message = models.ForeignKey(Message,  on_delete=models.CASCADE, related_name="liked_messages")
+# class SickHour(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sickHours")
+#     date = models.DateField()
+#     start = models.TimeField()
+#     end = models.TimeField()
 
