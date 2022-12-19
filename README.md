@@ -1,5 +1,13 @@
 # CS50's Web Programming with Python and JavaScript - Final Project Working hours
 
+My App on pythonanywhere
+
+http://denisa.pythonanywhere.com/
+
+Course's link with project requirements
+
+https://cs50.harvard.edu/web/2020/projects/final/capstone/
+
 ## Distinctiveness and Complexity:
 
 My idea was to create a website to display working hours for a person, who wants to keep track of his time spent at a work. Reporting just to himself will allow him to freely manage his time inputs for any chosen day.
@@ -53,7 +61,8 @@ On the calendar page is displayed a simple calendar in a table, the user can use
         python manage.py migrate
         python manage.py runserver
 
-- on www.pythonanywhere.com
+## Pythonanywhere
+- link http://denisa.pythonanywhere.com/
     
 
 
