@@ -81,16 +81,6 @@ WSGI_APPLICATION = 'working_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd8j2d9ahjb5d41',
-#         'USER': 'yoktioabcxalab',
-#         'PASSWORD': '38a8adb9e749672eff775c1e4941abd7fbbc1dd43a1b8dcd1b771dd9b033be1a',
-#         'HOST': 'ec2-99-81-137-11.eu-west-1.compute.amazonaws.com',
-#         'PORT': '5432'
-#     }
-# }
 
 DATABASES = {
     'default': {

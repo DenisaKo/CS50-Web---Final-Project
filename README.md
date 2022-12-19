@@ -50,7 +50,6 @@ On the calendar page is displayed a simple calendar in a table, the user can use
         git clone https://github.com/DenisaKo/CS50-Web---Final-Project.git
         cd CS50-Web---Final-Project
         pip install -r requirements.txt
-        python manage.py makemigrations
         python manage.py migrate
         python manage.py runserver
 
