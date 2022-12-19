@@ -6,8 +6,8 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <br>
-    
+<div class="container flex ">
+<div id="calendar-page">
     <h3>The Calendar</h3>
     <br>
     <p id="actual_month" hidden data-month="{{month}}"></p>
@@ -79,7 +79,7 @@
 
     <br>
 
-    <div class="table-responsive-md">
+    <div class="table-responsive-lg">
         <table class="table align-middle">
             <thead>
               <tr>
@@ -159,7 +159,8 @@
           </table>
     </div>
 {% endif %}
-
+</div>
+</div>
     
 
 {% endblock %}

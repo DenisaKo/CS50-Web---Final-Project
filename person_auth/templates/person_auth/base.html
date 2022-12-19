@@ -11,13 +11,15 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'hour/styles.css' %}">
+    {% block link %}
+    {% endblock %}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}" >
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}" >
     <link rel="manifest" href="{% static 'site.webmanifest' %}" >
     <title> {% block title %} My Site {% endblock %}</title>
 </head>
-<body>
+<body class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
     <nav class="navbar navbar-expand-md " style="background-color: transparent;">
         <div class="container-fluid">
           <a class="navbar-brand" href="/"><img src="{% static 'favicon-32x32.png' %}">&nbsp Working hours</a>
