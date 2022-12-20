@@ -107,6 +107,9 @@ p {
   #icon {
     height: 10vh;
   }
+  h2 {
+    font-size: 15px;
+  }
 }
 
 .shadow.shadow-custom {

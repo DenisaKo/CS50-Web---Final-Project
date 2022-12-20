@@ -201,7 +201,12 @@ main {
     margin-top: 5%;
 }
 
+#login_button {
+    text-decoration: none;
+}
+
 @media screen and (max-width:992px) {
     body {
         width: 100%;
     }
+    

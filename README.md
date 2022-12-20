@@ -41,7 +41,7 @@ In addition, the Profil Model tracks basic information about the user himself.
 
 ## Functionality
 
-Every day the application creates a new working day with an actual date and with default values for all registered users. After logging in, the user can input data for the current day in his Daily check-in section on the home page (a profile page). The application allows him to input data resulting in an "unfinished" day (the user is still working, and when he finishes, he will input additional time for the current day later). This day will be displayed in a calendar as incomplete and marked red. The next section on the profile page is a current month summary of working hours, the user can choose which month/year he wants to see.
+After logging in, the user can input data for the current day in his Daily check-in section on the home page (a profile page). The application allows him to input data resulting in an "unfinished" day (the user is still working, and when he finishes, he will input additional time for the current day later). This day will be displayed in a calendar as incomplete and marked red. The next section on the profile page is a current month summary of working hours, the user can choose which month/year he wants to see.
 
 On the calendar page is displayed a simple calendar in a table, the user can use a filter to choose which month to see in more detail. Each day can be modified in a table. The user can also add a new day to the calendar if he wants to. Here, all the input data must result in a "finished" day. Weekend days and public holidays are considered overtime and marked green.
 
