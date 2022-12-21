@@ -14,8 +14,8 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'working_system.settings')
 
 # https://stackoverflow.com/questions/573618/set-up-a-scheduled-job
-def ready():
-        from jobs import updater
-        updater.start()
+# def ready():
+#         from jobs import updater
+#         updater.start()
 
 application = get_wsgi_application()

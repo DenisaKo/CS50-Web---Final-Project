@@ -9,8 +9,6 @@ def create_day():
     year = today.year
     users = User.objects.all()
     for user in users:
-        if Day.objects.filter(user=user, date=today).first() == None:
-            Day.objects.create(user=user, date=today, completed=True)
-            if Month.objects.filter(user=user, month=month, year=year).first() == None:
-                Month.objects.create(user=user, month=month, year=year)
+            month_db, created = Month.objects.get_or_create(user=user, month=month, year=year)
+            day_db, created = Day.objects.get_or_create(user=user, date=today, month=month_db, completed=True)
  
