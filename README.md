@@ -70,5 +70,8 @@ I have implemented a few topics not covered in lectures such as:
 ## Pythonanywhere
 - link http://denisa.pythonanywhere.com/
 
+## YouTube
+- link https://youtu.be/0BJBWuoH20I
+
 ## Thank you
 Big thanks to the whole CS50 Team for excellent work in creating high-quality courses.
