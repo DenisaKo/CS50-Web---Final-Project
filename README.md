@@ -1,6 +1,6 @@
 # CS50's Web Programming with Python and JavaScript - Final Project Working hours
 
-My App on pythonanywhere
+My Web App on pythonanywhere
 
 http://denisa.pythonanywhere.com/
 
@@ -12,12 +12,14 @@ https://cs50.harvard.edu/web/2020/projects/final/capstone/
 
 My idea was to create a website to display working hours for a person, who wants to keep track of his time spent at a work. Reporting just to himself will allow him to freely manage his time inputs for any chosen day.
 Every user has to register/login to the system according to to use it. For not logged-in users there will be visible only a welcome page with an introduction of the website.
+The idea of this project is completely different from the others in the course. 
 
-## The Project consists of two apps:
+### The Project consists of two apps:
 1. an App hour - collecting data about a day
 2. an App person_auth - collecting data about a user 
 
 ### an App hour
+In the Day model there are some data created by the user himself for each day:
 - a morning login
 - a lunch pause start
 - a lunch pause end
@@ -30,6 +32,7 @@ Other attributes in this model calculated from the user's input data are:
 - completed: a boolean value, the day can be considered as finished if all user input data is valid
 - a public holiday: a boolean value, if a day is a public holiday - all working hours are considered overtime
 - a month: a foreign key refers to the Month model
+- a user: a foreign key refers to the User model
 
 The Month model collects data as a summary of each month in the specified year. It's in a relationship with each user and tracks the required working time and overtime.
 
@@ -38,13 +41,16 @@ The Month model collects data as a summary of each month in the specified year. 
 This app uses the built-in Django User Model and the Django user authentication system for user registration, logging in/logging out.
 In addition, the Profil Model tracks basic information about the user himself.
 
+### Functionality
 
-## Functionality
-
-After logging in, the user can input data for the current day in his Daily check-in section on the home page (a profile page). The application allows him to input data resulting in an "unfinished" day (the user is still working, and when he finishes, he will input additional time for the current day later). This day will be displayed in a calendar as incomplete and marked red. The next section on the profile page is a current month summary of working hours, the user can choose which month/year he wants to see.
+Every day the application creates a new working day and a month (if not present yet) at midnight with an actual date and with default values for all registered users. After logging in, the user can input data for the current day in his Daily check-in section on the home page (a profile page). The application allows him to input data resulting in an "unfinished" day (the user is still working, and when he finishes, he will input additional time for the current day later). This day will be displayed in a calendar as incomplete and marked red. The next section on the profile page is a current month summary of working hours, the user can choose which month/year he wants to see.
 
 On the calendar page is displayed a simple calendar in a table, the user can use a filter to choose which month to see in more detail. Each day can be modified in a table. The user can also add a new day to the calendar if he wants to. Here, all the input data must result in a "finished" day. Weekend days and public holidays are considered overtime and marked green.
 
+I have implemented a few topics not covered in lectures such as:
+- repeated task in the background (create a data - a day at midnight every day for each user)
+- favicon
+- created a custom Django-admin command
 
 ### Ideas to improve:
 - implement sick days/doctors visits
@@ -63,6 +69,6 @@ On the calendar page is displayed a simple calendar in a table, the user can use
 
 ## Pythonanywhere
 - link http://denisa.pythonanywhere.com/
-    
 
-
+## Thank you
+Big thanks to the whole CS50 Team for excellent work in creating high-quality courses.
